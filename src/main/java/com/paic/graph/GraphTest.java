@@ -1,4 +1,4 @@
-package com.paic;
+package com.paic.graph;
 
 import org.junit.Test;
 

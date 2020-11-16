@@ -1,4 +1,4 @@
-package com.paic;
+package com.paic.graph;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
