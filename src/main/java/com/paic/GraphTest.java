@@ -20,7 +20,7 @@ public class GraphTest {
      * @return
      */
     public Graph insertTest() {
-
+        // 顶点值
         String[] vertexArr = new String[]{"A","B","C","D","E"};
         Graph graph = new Graph(5);
         for (int i = 0; i < vertexArr.length; i++) {
@@ -45,6 +45,7 @@ public class GraphTest {
      */
     public Graph insertTest2() {
 
+        // 顶点值
         String[] vertexArr = new String[]{"1","2","3","4","5","6","7","8",};
         Graph graph = new Graph(vertexArr.length);
         for (int i = 0; i < vertexArr.length; i++) {
