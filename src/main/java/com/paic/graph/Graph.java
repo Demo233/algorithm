@@ -6,133 +6,117 @@ import java.util.LinkedList;
 /**
  * 使用邻接矩阵实现无向图，并支持DFS（depth first search） 和 BFS (Breadth first search)
  */
-public class Graph {
+public class Graph<T> {
+        // 顶点
+        private ArrayList<T> vertexs;
+        // 边
+        private int[][] edge;
+        // 已访问
+        private boolean[] visited;
 
-    // 邻接矩阵，存储边的连通信息
-    private int[][] edges;
-    // 顶点信息
-    private ArrayList<String> vertexs;
-    // 边的数量
-    private int edgeSize;
-
-    // 顶点是否访问过
-    private boolean[] visited;
-
-    Graph(int n){
-        edges = new int[n][n];
-        vertexs = new ArrayList<String>(n);
-        edgeSize = 0;
-        visited = new boolean[n];
-    }
-
-    /**
-     * 获取邻接点,在遍历图时，需要拿到第一个邻接点
-     */
-    public int getFirstNeighbor(int index){
-        for (int i = 0; i < vertexs.size(); i++) {
-            if(edges[index][i] > 0) return i;
+        Graph(int n){
+            vertexs = new ArrayList<T>();
+            edge = new int[n][n];
+            visited = new boolean[n];
         }
-        return -1;
-    }
 
-    //获取下一个邻接点
-    public int getNextNeighbor(int v1, int v2){
-        // 跳过第一个邻接点，直接从第二个开始
-        for (int i = v2 + 1; i < vertexs.size(); i++) {
-            if(edges[v1][i] > 0) return i;
+        public void insertVertex(T vertex){
+            vertexs.add(vertex);
         }
-        return -1;
-    }
 
-    // 获取顶点个数
-    public int getVertexSize(){
-        return vertexs.size();
-    }
-    // 获取边个数
-    public int getEdgeSize(){
-        return edgeSize;
-    }
-    // 获取权重
-    public int getWeight(int v1, int v2){
-        return edges[v1][v2];
-    }
-    // 插入顶点
-    public void insertVertex(String vertex){
-        vertexs.add(vertex);
-    }
-    // 插入边
-    public void insertEdge(int v1, int v2, int weight){
-        edges[v1][v2] = weight;
-        edges[v2][v1] = weight;
-        edgeSize ++;
-    }
-    // 打印图
-    public void show(){
-        for (int i = 0; i < edges.length; i++) {
-            for (int i1 = 0; i1 < edges[i].length; i1++) {
-                System.out.print(edges[i][i1] + "\t");
-            }
-            System.out.println();
-
+        public void insertEdge(int v1, int v2, int weight){
+            edge[v1][v2] = weight;
+            edge[v2][v1] = weight;
         }
-    }
 
-    public String getValueByIndex(int index){
-        return vertexs.get(index);
-    }
-    // 深度优先遍历算法
-    public void dfs(boolean[] visited, int index){
-        visited[index] = true;
-        System.out.print(getValueByIndex(index) + "=>");
-        int w = getFirstNeighbor(index);
-        while( w != -1){
-            if(!visited[w]){
-                dfs(visited, w);
-            }
-            w = getNextNeighbor(index, w);
-        }
-    }
-
-    public void dfs(){
-        for (int i = 0; i < vertexs.size(); i++) {
-            if(!visited[i]){
-                dfs(visited, i);
+        public void show(){
+            System.out.println(vertexs);
+            for (int i = 0; i < edge.length; i++) {
+                for (int i1 : edge[i]) {
+                    System.out.print(i1 + "\t");
+                }
+                System.out.println();
             }
         }
-    }
 
-    // 广度优先遍历算法,利用队列的特点，将除当前节点的其他节点存入其中，下次以队列内的节点为依据，一次寻找邻接点
-    public void bfs(boolean[] visited, int index){
 
-        int u; // 头
-        int w; // 第n个邻接点
+        public void dfs(int i){
+            System.out.print(vertexs.get(i).toString() + "=>");
+            visited[i] = true;
 
-        visited[index] = true;
-        System.out.print(getValueByIndex(index) + "->");
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        queue.addLast(index);
-
-        while(!queue.isEmpty()){
-            u = queue.removeFirst();
-            w = getFirstNeighbor(u);
+            //获取i的邻接点
+            int w = firstNeighbor(i);
             while(w != -1){
                 if(!visited[w]){
-                    System.out.print(getValueByIndex(w) + "->");
-                    visited[w] = true;
-                    queue.addLast(w);
+                    dfs(w);
                 }
-                w = getNextNeighbor(u, w);
+                w = nextNeighbor(i, w);
+            }
+
+        }
+
+        private int nextNeighbor(int i1, int i2) {
+
+            for (int j = i2 + 1; j < edge[i1].length; j++) {
+                if (edge[i1][j] == 1){
+                    return j;
+                }
+            }
+            return -1;
+        }
+
+
+        // 深度优先遍历算法
+        public void dfs(){
+
+            for (int i = 0; i < vertexs.size(); i++) {
+                if(!visited[i]){
+                    dfs(i);
+                }
             }
         }
-    }
 
-    public void bfs(){
-        for (int i = 0; i < vertexs.size(); i++) {
-            if(!visited[i]){
-                bfs(visited, i);
+
+        private int firstNeighbor(int index) {
+            for (int i = 0; i < edge[index].length; i++) {
+                if(edge[index][i] > 0){
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+
+        // 广度优先遍历
+        public void bfs(int i){
+            LinkedList<Integer> queue = new LinkedList<Integer>();
+            int w; // 第n个邻接点
+            int u; // 头结点
+            System.out.print(vertexs.get(i) + "->");
+            visited[i] = true;
+            queue.addLast(i);
+
+            while(!queue.isEmpty()){
+                u = queue.removeFirst();
+
+                w = firstNeighbor(i);
+                while(w != -1){
+                    if(!visited[w]){
+                        queue.addLast(w);
+                        System.out.print(vertexs.get(w) + "->");
+                        visited[w] = true;
+                    }
+                    w = nextNeighbor(u, w);
+                }
             }
         }
-    }
 
+        public void bfs(){
+            for (int i = 0; i < vertexs.size(); i++) {
+                if(!visited[i]){
+                    bfs(i);
+                }
+            }
+        }
 
 }
