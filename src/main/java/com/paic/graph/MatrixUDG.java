@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /**
  * 使用邻接矩阵实现无向图，并支持DFS（depth first search） 和 BFS (Breadth first search)
  */
-public class Graph<T> {
+public class MatrixUDG<T> {
     // 顶点
     private ArrayList<T> vertexs;
     // 边
@@ -14,7 +14,7 @@ public class Graph<T> {
     // 已访问
     private boolean[] visited;
 
-    Graph(int n) {
+    MatrixUDG(int n) {
         vertexs = new ArrayList<T>();
         edge = new int[n][n];
         visited = new boolean[n];
@@ -24,6 +24,7 @@ public class Graph<T> {
         vertexs.add(vertex);
     }
 
+    // 有向图和无向图的区别，仅仅是在插入边时做改动
     public void insertEdge(int v1, int v2, int weight) {
         edge[v1][v2] = weight;
         edge[v2][v1] = weight;
@@ -118,5 +119,34 @@ public class Graph<T> {
             }
         }
     }
+
+
+    public static void main(String[] args) {
+        {
+
+            // 顶点值
+            String[] vertexArr = new String[]{"1", "2", "3", "4", "5", "6", "7", "8",};
+            MatrixUDG matrixUDG = new MatrixUDG(vertexArr.length);
+            for (int i = 0; i < vertexArr.length; i++) {
+                matrixUDG.insertVertex(vertexArr[i]);
+            }
+
+            matrixUDG.insertEdge(0, 1, 1);//1-2
+            matrixUDG.insertEdge(0, 2, 1);//1-3
+            matrixUDG.insertEdge(1, 3, 1);//2-4
+            matrixUDG.insertEdge(1, 4, 1);//2-5
+            matrixUDG.insertEdge(3, 7, 1);//4-8
+            matrixUDG.insertEdge(4, 7, 1);//5-8
+            matrixUDG.insertEdge(2, 5, 1);//3-6
+            matrixUDG.insertEdge(2, 6, 1);//3-7
+            matrixUDG.insertEdge(5, 6, 1);//6-7
+
+
+            matrixUDG.show();
+            matrixUDG.bfs();
+            matrixUDG.dfs();
+        }
+    }
+
 
 }

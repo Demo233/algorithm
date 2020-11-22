@@ -1,9 +1,9 @@
 package com.paic.graph;
 
 /**
- * 使用邻接表创建有向图
+ * 使用邻接表创建无向图
  */
-public class ListDG {
+public class ListUDG {
 
     private VNode[] vNodes;
 
@@ -28,7 +28,7 @@ public class ListDG {
      * @param vertexs 所有的顶点
      * @param edges 所有的边
      */
-    public ListDG(char[] vertexs, char[][] edges){
+    public ListUDG(char[] vertexs, char[][] edges){
 
         int v1 = vertexs.length;
         vNodes = new VNode[v1];
@@ -55,6 +55,13 @@ public class ListDG {
             else
                 linkLast(vNodes[p1].firstEdge, node1);
 
+            // 创建无向图
+            ENode node2 = new ENode();
+            node2.index = p1;
+            if(vNodes[p2].firstEdge == null)
+                vNodes[p2].firstEdge = node2;
+            else
+                linkLast(vNodes[p2].firstEdge, node2);
         }
 
 
@@ -63,6 +70,7 @@ public class ListDG {
     // 将node链接到list最后
     private void linkLast(ENode list, ENode node) {
 
+        // 判断list中是否有node
         if(hasNode(list, node))
             return;
 
@@ -128,12 +136,12 @@ public class ListDG {
                 {'E', 'B'},
                 {'E', 'D'},
                 {'F', 'G'}};
-        ListDG pG;
+        ListUDG pG;
 
         // 自定义"图"(输入矩阵队列)
         //pG = new ListDG();
         // 采用已有的"图"
-        pG = new ListDG(vexs, edges);
+        pG = new ListUDG(vexs, edges);
 
         pG.print();   // 打印图
     }
