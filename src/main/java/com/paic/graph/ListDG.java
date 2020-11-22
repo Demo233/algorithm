@@ -8,7 +8,7 @@ public class ListDG {
     private VNode[] vNodes;
 
     // 边节点
-    private class ENode{
+    public class ENode{
         // 边的索引
         int index;
         // 边的下一条边
@@ -16,13 +16,15 @@ public class ListDG {
     }
 
     // 顶点
-    private class VNode{
+    public class VNode{
         // 顶点存储的值
         char data;
         // 顶底相连的第一条边
         ENode firstEdge;
     }
-
+    public VNode[] getVNodes(){
+        return this.vNodes;
+    }
     /**
      *
      * @param vertexs 所有的顶点
