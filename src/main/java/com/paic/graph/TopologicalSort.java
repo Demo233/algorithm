@@ -10,8 +10,9 @@ import java.util.Queue;
  * 2. 如果Q队列不为空，循环一下操作
  * 3. 取出Q队列中的第一个值n(并删除),将n放入T队列
  * 3.1 如果n的邻接点不为空，循环一下操作
- * 3.2	删除邻接点的边n-m，如果顶点m
+ * 3.2	删除邻接点的边<n-m>
  * 3.2.1 如果顶点m没有依赖，将m放入到Q队列
+ * 这里A没有依赖，指的是没有以A为终点的边
  */
 public class TopologicalSort {
 
@@ -84,15 +85,9 @@ public class TopologicalSort {
                 {'D', 'F'}
         };
         ListDG pG;
-
-        // 自定义"图"(输入矩阵队列)
-        //pG = new ListDG();
-        // 采用已有的"图"
         pG = new ListDG(vexs, edges);
 
         pG.print();   // 打印图
-        //pG.DFS();     // 深度优先遍历
-        //pG.BFS();     // 广度优先遍历
         new TopologicalSort().sort(pG);
     }
 }
