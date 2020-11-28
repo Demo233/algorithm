@@ -144,7 +144,7 @@ public class MatrixUDG<T> {
 
             matrixUDG.show();
             matrixUDG.bfs();
-            matrixUDG.dfs();
+            //matrixUDG.dfs();
         }
     }
 
